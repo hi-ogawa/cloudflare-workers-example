@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@cloudflare/kv-asset-handler": "^0.3.0",
     "@hattip/adapter-cloudflare-workers": "^0.0.34",
     "@hattip/adapter-node": "^0.0.34",
     "@hattip/compose": "^0.0.34",

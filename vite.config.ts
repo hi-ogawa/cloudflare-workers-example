@@ -21,6 +21,9 @@ export default defineConfig((ctx) => ({
   build: {
     outDir: ctx.ssrBuild ? "dist/server" : "dist/client",
     sourcemap: true,
+    rollupOptions: {
+      external: ["__STATIC_CONTENT_MANIFEST"],
+    },
   },
   clearScreen: false,
 }));

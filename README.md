@@ -14,6 +14,7 @@ pnpm release
 
 ## summary
 
-- SSR/API server
-- client assets on `bucket`
-- persistence on `D1`
+- [x] SSR server
+- [ ] API server
+- [x] client assets on `bucket`
+- [ ] persistence on `D1`
