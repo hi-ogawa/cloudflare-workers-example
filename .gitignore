@@ -1,0 +1,4 @@
+node_modules
+dist
+.vercel
+misc/test.local.sh
