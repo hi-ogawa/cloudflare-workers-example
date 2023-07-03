@@ -1,4 +1,4 @@
-name = "hiogawa-cloudflare-workers-example"
+name = "cloudflare-workers-example"
 
 workers_dev = true
 main = "./dist/cloudflare/index.js"
@@ -6,3 +6,7 @@ compatibility_date = "2023-04-20"
 
 [site]
 bucket = "./dist/cloudflare/bucket"
+
+[env.staging]
+
+[env.production]

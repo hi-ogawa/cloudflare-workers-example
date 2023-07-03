@@ -10,15 +10,15 @@ export function Page() {
         <div className="flex gap-2">
           <button
             className="antd-btn antd-btn-default px-2"
-            onClick={() => setValue((v) => v + 1)}
-          >
-            +1
-          </button>
-          <button
-            className="antd-btn antd-btn-default px-2"
             onClick={() => setValue((v) => v - 1)}
           >
             -1
+          </button>
+          <button
+            className="antd-btn antd-btn-default px-2"
+            onClick={() => setValue((v) => v + 1)}
+          >
+            +1
           </button>
         </div>
       </div>

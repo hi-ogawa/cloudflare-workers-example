@@ -1,4 +1,4 @@
-# cloudflare-workers-example
+# cloudflare-workers-example (wip)
 
 trying out cloudflare workers and wrangler cli workflow.
 
