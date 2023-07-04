@@ -4,6 +4,10 @@ workers_dev = true
 main = "./dist/cloudflare/index.js"
 compatibility_date = "2023-04-20"
 
+kv_namespaces = [
+  { binding = "kv", id = "aea172d2e5f44bd399f8d334a4af8694" }
+]
+
 [site]
 bucket = "./dist/cloudflare/bucket"
 

@@ -1,3 +1,4 @@
+import { typedBoolean } from "@hiogawa/utils";
 import importIndexHtmlPlugin from "@hiogawa/vite-import-index-html";
 import vaviteConnect from "@vavite/connect";
 import react from "@vitejs/plugin-react";
@@ -22,7 +23,10 @@ export default defineConfig((ctx) => ({
     outDir: ctx.ssrBuild ? "dist/server" : "dist/client",
     sourcemap: true,
     rollupOptions: {
-      external: ["__STATIC_CONTENT_MANIFEST"],
+      external: [
+        "__STATIC_CONTENT_MANIFEST",
+        !ctx.ssrBuild && "../rpc/server",
+      ].filter(typedBoolean),
     },
   },
   clearScreen: false,

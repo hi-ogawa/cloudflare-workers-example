@@ -1,5 +1,6 @@
 import type { RequestHandler } from "@hattip/compose";
 import { type TinyRpcRoutes, createTinyRpcHandler } from "@hiogawa/tiny-rpc";
+// TOOD: don't bundle for PROD
 import { KVNamespace } from "@miniflare/kv";
 import { MemoryStorage } from "@miniflare/storage-memory";
 
@@ -21,12 +22,9 @@ export function rpcHandler(): RequestHandler {
 }
 
 function createCounter() {
-  // TODO: setup real KV on production
-  // TODO: use async context to share global?
-  // import.meta.env.PROD;
-
-  // https://github.com/cloudflare/miniflare/blob/master/packages/kv/README.md
-  const kv = new KVNamespace(new MemoryStorage());
+  const kv: KVNamespace = import.meta.env.PROD
+    ? (globalThis as any).kv
+    : new KVNamespace(new MemoryStorage());
   const key = "counter";
 
   return {
