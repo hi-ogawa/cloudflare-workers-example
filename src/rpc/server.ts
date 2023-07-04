@@ -1,14 +1,10 @@
 import type { RequestHandler } from "@hattip/compose";
 import { type TinyRpcRoutes, createTinyRpcHandler } from "@hiogawa/tiny-rpc";
-// TOOD: don't bundle for PROD
-import { KVNamespace } from "@miniflare/kv";
-import { MemoryStorage } from "@miniflare/storage-memory";
-
-let counter = createCounter();
+import { kv } from "../utils/kv";
 
 export const rpcRoutes = {
   getCounter: () => counter.get(),
-  updateCounter: (delta: number) => counter.update(delta),
+  updateCounter: async (delta: number) => counter.update(delta),
 } satisfies TinyRpcRoutes;
 
 export function rpcHandler(): RequestHandler {
@@ -21,22 +17,21 @@ export function rpcHandler(): RequestHandler {
   });
 }
 
-function createCounter() {
-  const kv: KVNamespace = import.meta.env.PROD
-    ? (globalThis as any).kv
-    : new KVNamespace(new MemoryStorage());
-  const key = "counter";
+//
+// counter on KV
+//
 
-  return {
-    async get() {
-      const v = await kv.get(key);
-      return Number(v);
-    },
-    async update(delta: number) {
-      let v = await this.get();
-      v += delta;
-      await kv.put(key, String(v));
-      return v;
-    },
-  };
-}
+const counterKey = "counter";
+
+const counter = {
+  async get() {
+    const v = await kv.get(counterKey);
+    return Number(v);
+  },
+  async update(delta: number) {
+    let v = await this.get();
+    v += delta;
+    await kv.put(counterKey, String(v));
+    return v;
+  },
+};
