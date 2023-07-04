@@ -3,11 +3,13 @@ import { once } from "@hiogawa/utils";
 import { importIndexHtml } from "@hiogawa/vite-import-index-html/dist/runtime";
 import { rpcHandler } from "../rpc/server";
 import { initializeKV } from "../utils/kv";
+import { requestContextStorage } from "./request-context";
 import { runSSR } from "./ssr";
 
 export function createHattipEntry() {
   return compose(
     errorHandler(),
+    requestContextProvider(),
     bootstrapHander(),
     rpcHandler(),
     htmlHandler()
@@ -34,15 +36,17 @@ function bootstrapHander(): RequestHandler {
 
 function errorHandler(): RequestHandler {
   return async (ctx) => {
-    try {
-      return await ctx.next();
-    } catch (e) {
+    ctx.handleError = (e) => {
       console.error(e);
       return new Response(
         "[errorHandler] " +
           (e instanceof Error ? e.stack ?? e.message : String(e)),
         { status: 500 }
       );
-    }
+    };
   };
+}
+
+function requestContextProvider(): RequestHandler {
+  return async (ctx) => requestContextStorage.run(ctx, ctx.next);
 }

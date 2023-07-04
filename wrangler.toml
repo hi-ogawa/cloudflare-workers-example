@@ -1,8 +1,10 @@
 name = "cloudflare-workers-example"
 
-workers_dev = true
 main = "./dist/cloudflare/index.js"
+workers_dev = true
+no_bundle = true
 compatibility_date = "2023-04-20"
+compatibility_flags = [ "nodejs_compat" ]
 
 [site]
 bucket = "./dist/cloudflare/bucket"

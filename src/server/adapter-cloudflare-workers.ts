@@ -72,7 +72,7 @@ function createFetchHandler() {
       request,
       waitUntil,
       ip: request.headers.get("cf-connection-ip") || "",
-      platform: {},
+      platform: { env },
       passThrough() {
         throw new Error("hattip passThrough unsupported");
       },
