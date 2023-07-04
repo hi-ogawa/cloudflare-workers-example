@@ -8,23 +8,8 @@ import { createHattipEntry } from ".";
 // https://github.com/hattipjs/hattip/blob/03a704fa120dfe2eddd6cf22eff00c90bda2acb5/packages/adapter/adapter-cloudflare-workers/src/index.ts#L17-L18
 
 export default {
-  fetch: createFetchHandlerWrapper(),
+  fetch: createFetchHandler(),
 };
-
-function createFetchHandlerWrapper() {
-  try {
-    return createFetchHandler();
-  } catch (e) {
-    return () => {
-      console.error(e);
-      return new Response(
-        "[ERROR:createFetchHandler] " +
-          (e instanceof Error ? e.stack ?? e.message : String(e)),
-        { status: 500 }
-      );
-    };
-  }
-}
 
 function createFetchHandler() {
   const hattipHandler = createHattipEntry();
