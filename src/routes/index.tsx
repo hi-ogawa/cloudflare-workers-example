@@ -1,25 +1,20 @@
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { rpcClientQuery } from "../rpc/client";
-import { rpcRoutesQuery } from "../rpc/server";
-
-export async function loader({ queryClient }: { queryClient: QueryClient }) {
-  await queryClient.prefetchQuery(rpcRoutesQuery.getCounter.queryOptions());
-}
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { rpcClient } from "../rpc/client";
+import { rpcRoutes } from "../rpc/server";
 
 export function Page() {
-  const getCounterQueryOptions = rpcClientQuery.getCounter.queryOptions();
-  const getCounterQuery = useQuery(getCounterQueryOptions);
+  const queryKey = ["getCounter"];
+  const getCounterQuery = useQuery({
+    queryKey,
+    queryFn: import.meta.env.SSR ? rpcRoutes.getCounter : rpcClient.getCounter,
+    suspense: import.meta.env.SSR,
+  });
 
   const queryClient = useQueryClient();
   const updateCounterMutation = useMutation({
-    ...rpcClientQuery.updateCounter.mutationOptions(),
+    mutationFn: rpcClient.updateCounter,
     onSuccess(data, _variables, _context) {
-      queryClient.setQueryData(getCounterQueryOptions.queryKey, data);
+      queryClient.setQueryData(queryKey, data);
     },
   });
 
