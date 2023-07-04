@@ -1,4 +1,4 @@
-# cloudflare-workers-example (wip)
+# cloudflare-workers-example
 
 trying out cloudflare workers and wrangler cli workflow.
 
@@ -17,4 +17,4 @@ pnpm release
 - [x] SSR server
 - [x] API server
 - [x] client assets on `bucket`
-- [ ] persistence on `KV`
+- [x] persistence on `KV`
