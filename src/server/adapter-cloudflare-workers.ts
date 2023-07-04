@@ -20,6 +20,9 @@ function createFetchHandler() {
     env: unknown,
     ctx: unknown
   ): Promise<Response> => {
+    // expose worker globals
+    Object.assign(globalThis, { env });
+
     const waitUntil = (ctx as any).waitUntil.bind(ctx);
 
     if (request.method === "GET" || request.method === "HEAD") {

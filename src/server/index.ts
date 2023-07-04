@@ -27,8 +27,8 @@ function htmlHandler(): RequestHandler {
 }
 
 function bootstrapHander(): RequestHandler {
-  return once(async (ctx) => {
-    await initializeKV(ctx);
+  return once(async () => {
+    await initializeKV();
   });
 }
 
