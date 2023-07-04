@@ -33,6 +33,8 @@
     "@hiogawa/unocss-preset-antd": "2.2.1-pre.3",
     "@hiogawa/utils": "1.4.2-pre.12",
     "@hiogawa/vite-import-index-html": "^0.1.0",
+    "@miniflare/kv": "^2.14.0",
+    "@miniflare/storage-memory": "^2.14.0",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",
     "@tsconfig/strictest": "^2.0.1",
@@ -47,6 +49,7 @@
     "typescript": "^5.1.6",
     "unocss": "^0.53.4",
     "vite": "^4.3.9",
-    "wrangler": "^3.1.1"
+    "wrangler": "^3.1.1",
+    "zod": "^3.21.4"
   }
 }
