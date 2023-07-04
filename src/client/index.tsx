@@ -15,11 +15,9 @@ function main() {
   const queryClient = createQueryClientWithState();
   const reactEl = (
     <React.StrictMode>
-      <React.Suspense>
-        <ReactQueryWrapper queryClient={queryClient}>
-          <Page />
-        </ReactQueryWrapper>
-      </React.Suspense>
+      <ReactQueryWrapper queryClient={queryClient}>
+        <Page />
+      </ReactQueryWrapper>
     </React.StrictMode>
   );
   hydrateRoot(el, reactEl);

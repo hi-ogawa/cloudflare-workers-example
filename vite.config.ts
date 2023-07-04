@@ -1,11 +1,14 @@
+import path from "node:path";
+import process from "node:process";
 import importIndexHtmlPlugin from "@hiogawa/vite-import-index-html";
 import vaviteConnect from "@vavite/connect";
 import react from "@vitejs/plugin-react";
 import unocss from "unocss/vite";
-import { defineConfig } from "vite";
+import { Plugin, defineConfig } from "vite";
 
 export default defineConfig((ctx) => ({
   plugins: [
+    emptyModulesPlugin(),
     react(),
     unocss(),
     importIndexHtmlPlugin(),
@@ -27,3 +30,17 @@ export default defineConfig((ctx) => ({
   },
   clearScreen: false,
 }));
+
+function emptyModulesPlugin(): Plugin {
+  const serverOnlyPath = path.join(process.cwd(), "/src/server-only.ts");
+  return {
+    name: emptyModulesPlugin.name,
+    enforce: "pre",
+    transform(_code, id, options) {
+      if (!options?.ssr && id === serverOnlyPath) {
+        return `export default {}`;
+      }
+      return undefined;
+    },
+  };
+}

@@ -1,19 +1,13 @@
 import type { RequestHandler } from "@hattip/compose";
-import { createFnRecordQueryProxy } from "@hiogawa/query-proxy";
 import { type TinyRpcRoutes, createTinyRpcHandler } from "@hiogawa/tiny-rpc";
-
-let counter = 0;
+import { zodFn } from "@hiogawa/tiny-rpc/dist/zod";
+import { z } from "zod";
+import { kv } from "../utils/kv";
 
 export const rpcRoutes = {
-  getCounter: () => counter,
-
-  updateCounter: (delta: number) => {
-    counter += delta;
-    return counter;
-  },
+  getCounter: () => counter.get(),
+  updateCounter: zodFn(z.number())(async (delta) => counter.update(delta)),
 } satisfies TinyRpcRoutes;
-
-export const rpcRoutesQuery = createFnRecordQueryProxy(rpcRoutes);
 
 export function rpcHandler(): RequestHandler {
   return createTinyRpcHandler({
@@ -24,3 +18,23 @@ export function rpcHandler(): RequestHandler {
     },
   });
 }
+
+//
+// counter on KV
+//
+
+const counter = {
+  key: "counter",
+
+  async get() {
+    const v = await kv.get(counter.key);
+    return Number(v);
+  },
+
+  async update(delta: number) {
+    let v = await counter.get();
+    v += delta;
+    await kv.put(counter.key, String(v));
+    return v;
+  },
+};
