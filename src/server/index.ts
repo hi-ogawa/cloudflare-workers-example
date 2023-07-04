@@ -27,13 +27,9 @@ function htmlHandler(): RequestHandler {
 }
 
 function bootstrapHander(): RequestHandler {
-  const bootstrapOnce = once(async () => {
+  return once(async () => {
     await initializeKV();
   });
-
-  return async () => {
-    await bootstrapOnce();
-  };
 }
 
 function errorHandler(): RequestHandler {
