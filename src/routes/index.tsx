@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { rpcClient } from "../rpc/client";
+import { rpcRoutes } from "../rpc/server";
 
 export function Page() {
   const queryKey = ["getCounter"];
   const getCounterQuery = useQuery({
     queryKey,
     // TODO: absurd workaround to eliminate server code on client build
-    queryFn: import.meta.env.SSR
-      ? () => import("../rpc/server").then((lib) => lib.rpcRoutes.getCounter())
-      : rpcClient.getCounter,
+    // queryFn: import.meta.env.SSR
+    //   ? () => import("../rpc/server").then((lib) => lib.rpcRoutes.getCounter())
+    //   : rpcClient.getCounter,
+    queryFn: import.meta.env.SSR ? rpcRoutes.getCounter : rpcClient.getCounter,
     suspense: import.meta.env.SSR,
   });
 
