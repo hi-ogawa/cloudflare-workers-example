@@ -1,4 +1,5 @@
-import { typedBoolean } from "@hiogawa/utils";
+import path from "node:path";
+import process from "node:process";
 import importIndexHtmlPlugin from "@hiogawa/vite-import-index-html";
 import vaviteConnect from "@vavite/connect";
 import react from "@vitejs/plugin-react";
@@ -7,7 +8,7 @@ import { Plugin, defineConfig } from "vite";
 
 export default defineConfig((ctx) => ({
   plugins: [
-    serverOnlyModulesPlugin(),
+    emptyModulesPlugin(),
     react(),
     unocss(),
     importIndexHtmlPlugin(),
@@ -24,33 +25,20 @@ export default defineConfig((ctx) => ({
     outDir: ctx.ssrBuild ? "dist/server" : "dist/client",
     sourcemap: true,
     rollupOptions: {
-      external: [
-        "__STATIC_CONTENT_MANIFEST",
-        !ctx.ssrBuild && "../rpc/server",
-      ].filter(typedBoolean),
+      external: ["__STATIC_CONTENT_MANIFEST"],
     },
   },
   clearScreen: false,
 }));
 
-function serverOnlyModulesPlugin(): Plugin {
+function emptyModulesPlugin(): Plugin {
+  const serverOnlyPath = path.join(process.cwd(), "/src/server-only.ts");
   return {
-    name: serverOnlyModulesPlugin.name,
+    name: emptyModulesPlugin.name,
     enforce: "pre",
-    async resolveId(source, importer, options) {
-      console.log({ source, importer, options });
-      // const resolved = await this.resolve(source, importer, options);
-      // if (resolved) {
-      //   if (resolved.id === "/src/rpc/server.ts") {
-      //     // return { }
-      //   }
-      // }
-    },
     transform(_code, id, options) {
-      if (!options?.ssr) {
-        if (id.endsWith("/src/rpc/server.ts")) {
-          return `module.exports = {}`;
-        }
+      if (!options?.ssr && id === serverOnlyPath) {
+        return `export default {}`;
       }
       return undefined;
     },
