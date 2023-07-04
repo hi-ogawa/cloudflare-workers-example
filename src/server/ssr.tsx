@@ -1,6 +1,20 @@
 import { renderToString } from "react-dom/server";
-import { Page } from "../routes";
+import { Page, loader } from "../routes";
+import {
+  ReactQueryWrapper,
+  createQueryClient,
+  getQueryClientStateScript,
+} from "../utils/react-query";
 
-export function runSSR() {
-  return renderToString(<Page />);
+export async function runSSR() {
+  const queryClient = createQueryClient();
+  await loader({ queryClient });
+  const reactEl = (
+    <ReactQueryWrapper queryClient={queryClient}>
+      <Page />
+    </ReactQueryWrapper>
+  );
+  const html = renderToString(reactEl);
+  const head = getQueryClientStateScript(queryClient);
+  return { html, head };
 }

@@ -22,27 +22,34 @@ function createFetchHandler() {
   ): Promise<Response> => {
     const waitUntil = (ctx as any).waitUntil.bind(ctx);
 
-    try {
-      return await getAssetFromKV(
-        {
-          request,
-          waitUntil,
-        },
-        {
-          ASSET_NAMESPACE: (env as any).__STATIC_CONTENT,
-          ASSET_MANIFEST: manifest,
-          cacheControl: {
-            browserTTL: 60 * 60 * 24 * 365,
-            edgeTTL: 60 * 60 * 24 * 365,
+    if (request.method === "GET" || request.method === "HEAD") {
+      try {
+        return await getAssetFromKV(
+          {
+            request,
+            waitUntil,
           },
-        }
-      );
-    } catch (e) {
-      if (!(e instanceof NotFoundError)) {
-        return new Response(
-          e instanceof Error ? e.stack ?? e.message : "ERROR: getAssetFromKV",
-          { status: 500 }
+          {
+            ASSET_NAMESPACE: (env as any).__STATIC_CONTENT,
+            ASSET_MANIFEST: manifest,
+            cacheControl: {
+              browserTTL: 60 * 60 * 24 * 365,
+              edgeTTL: 60 * 60 * 24 * 365,
+            },
+          }
         );
+      } catch (e) {
+        if (!(e instanceof NotFoundError)) {
+          return new Response(
+            [
+              "ERROR: getAssetFromKV",
+              e instanceof Error && (e.stack ?? e.message),
+            ]
+              .filter(Boolean)
+              .join("\n"),
+            { status: 500 }
+          );
+        }
       }
     }
 
