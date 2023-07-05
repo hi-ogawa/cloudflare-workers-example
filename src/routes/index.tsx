@@ -1,12 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import { Toaster } from "react-hot-toast";
 import { rpcClient } from "../rpc/client";
-import serverOnly from "../server-only";
+import { rpcRoutes } from "../rpc/server";
+
+const queryKey = ["getCounter"];
+
+// ssr prepass to prefetch query
+export function PagePrepass() {
+  useQuery({
+    queryKey,
+    queryFn: rpcRoutes.getCounter,
+    suspense: true,
+  });
+  return null;
+}
 
 export function Page() {
   return (
-    <React.Suspense>
+    <>
       <Toaster />
       <div className="flex flex-col">
         <header className="top-0 sticky antd-body flex items-center p-2 px-4 gap-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7] z-1">
@@ -20,18 +31,14 @@ export function Page() {
         </header>
         <PageInner />
       </div>
-    </React.Suspense>
+    </>
   );
 }
 
 function PageInner() {
-  const queryKey = ["getCounter"];
   const getCounterQuery = useQuery({
     queryKey,
-    queryFn: import.meta.env.SSR
-      ? serverOnly.rpcRoutes.getCounter
-      : rpcClient.getCounter,
-    suspense: import.meta.env.SSR,
+    queryFn: rpcClient.getCounter,
   });
 
   const queryClient = useQueryClient();

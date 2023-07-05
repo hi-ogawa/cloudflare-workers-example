@@ -1,14 +1,33 @@
 import React from "react";
-import { Page } from "../routes";
+import { Page, PagePrepass } from "../routes";
 import {
   ReactQueryWrapper,
   createQueryClient,
   getQueryClientStateScript,
 } from "../utils/react-query";
 
+// @ts-expect-error prettier-ignore
+import * as reactDomServer from "react-dom/server.browser";
+const { renderToReadableStream, renderToString } =
+  reactDomServer as typeof import("react-dom/server");
+
 export async function runSSR() {
   const queryClient = createQueryClient();
 
+  // 1st pass to prefetch queries (aka prepass)
+  const reactPrepassEl = (
+    <ReactQueryWrapper queryClient={queryClient}>
+      <PagePrepass />
+    </ReactQueryWrapper>
+  );
+  const reactStream = await renderToReadableStream(reactPrepassEl, {
+    onError(error, errorInfo) {
+      console.error(error, errorInfo);
+    },
+  });
+  await reactStream.allReady;
+
+  // 2nd pass to render html
   const reactEl = (
     <React.StrictMode>
       <ReactQueryWrapper queryClient={queryClient}>
@@ -16,27 +35,7 @@ export async function runSSR() {
       </ReactQueryWrapper>
     </React.StrictMode>
   );
-
-  //
-  // emulate "ssr prepass" by `Suspense` and `allReady`
-  //
-
-  // workaround import error
-  const { renderToReadableStream }: typeof import("react-dom/server") =
-    await import("react-dom/server.browser" as string);
-
-  const reactStream = await renderToReadableStream(reactEl, {
-    onError(error, errorInfo) {
-      console.error(error, errorInfo);
-    },
-  });
-  await reactStream.allReady;
-
-  let html = "";
-  const decoder = new TextDecoder();
-  for await (const chunk of reactStream as any as AsyncIterable<Uint8Array>) {
-    html += decoder.decode(chunk);
-  }
+  const html = renderToString(reactEl);
 
   const head = getQueryClientStateScript(queryClient);
   return { html, head };
