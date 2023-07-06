@@ -1,6 +1,7 @@
 import { NotFoundError, getAssetFromKV } from "@cloudflare/kv-asset-handler";
 import __STATIC_CONTENT_MANIFEST from "__STATIC_CONTENT_MANIFEST";
 import { createHattipEntry } from ".";
+import { setEnv } from "../utils/worker-env";
 
 // cf.
 // https://github.com/remix-run/remix/blob/fbc6e2353b4ef2c2166677b39b7fbd8eb90a5379/templates/cloudflare-workers/server.ts#L11-L14
@@ -19,8 +20,7 @@ function createFetchHandler() {
     env: unknown,
     ctx: unknown
   ): Promise<Response> => {
-    // expose worker globals
-    Object.assign(globalThis, { env });
+    setEnv(env);
 
     const waitUntil = (ctx as any).waitUntil.bind(ctx);
 

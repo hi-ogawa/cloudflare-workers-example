@@ -52,7 +52,7 @@ devDependencies:
   '@miniflare/kv':
     specifier: ^2.14.0
     version: 2.14.0
-  '@miniflare/storage-memory':
+  '@miniflare/storage-file':
     specifier: ^2.14.0
     version: 2.14.0
   '@tanstack/react-query':
@@ -1180,6 +1180,14 @@ packages:
       kleur: 4.1.5
       npx-import: 1.1.4
       picomatch: 2.3.1
+    dev: true
+
+  /@miniflare/storage-file@2.14.0:
+    resolution: {integrity: sha512-Ps0wHhTO+ie33a58efI0p/ppFXSjlbYmykQXfYtMeVLD60CKl+4Lxor0+gD6uYDFbhMWL5/GMDvyr4AM87FA+Q==}
+    engines: {node: '>=16.13'}
+    dependencies:
+      '@miniflare/shared': 2.14.0
+      '@miniflare/storage-memory': 2.14.0
     dev: true
 
   /@miniflare/storage-memory@2.14.0:

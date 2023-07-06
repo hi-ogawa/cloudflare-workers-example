@@ -2,7 +2,7 @@ import type { RequestHandler } from "@hattip/compose";
 import { type TinyRpcRoutes, createTinyRpcHandler } from "@hiogawa/tiny-rpc";
 import { zodFn } from "@hiogawa/tiny-rpc/dist/zod";
 import { z } from "zod";
-import { kv } from "../utils/kv";
+import { env } from "../utils/worker-env";
 
 export const rpcRoutes = {
   getCounter: () => counter.get(),
@@ -27,14 +27,14 @@ const counter = {
   key: "counter",
 
   async get() {
-    const v = await kv.get(counter.key);
+    const v = await env.kv.get(counter.key);
     return Number(v);
   },
 
   async update(delta: number) {
     let v = await counter.get();
     v += delta;
-    await kv.put(counter.key, String(v));
+    await env.kv.put(counter.key, String(v));
     return v;
   },
 };

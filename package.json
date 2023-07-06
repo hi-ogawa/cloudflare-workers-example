@@ -37,7 +37,7 @@
     "@hiogawa/vite-import-index-html": "^0.1.0",
     "@iconify-json/ri": "^1.1.10",
     "@miniflare/kv": "^2.14.0",
-    "@miniflare/storage-memory": "^2.14.0",
+    "@miniflare/storage-file": "^2.14.0",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",
     "@tsconfig/strictest": "^2.0.1",
