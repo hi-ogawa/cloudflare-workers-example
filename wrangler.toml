@@ -8,6 +8,7 @@ compatibility_flags = [ "nodejs_compat" ]
 
 # https://developers.cloudflare.com/workers/wrangler/workers-kv/
 # npx wrangler kv:namespace create cloudflare-workers-example-main
+# npx wrangler kv:namespace create kvMain --preview
 kv_namespaces = [
   { binding = "kvMain", id = "aea172d2e5f44bd399f8d334a4af8694" }
 ]
@@ -17,5 +18,5 @@ bucket = "./dist/cloudflare/bucket"
 
 [env.staging]
 kv_namespaces = [
-  { binding = "kvMain", id = "aea172d2e5f44bd399f8d334a4af8694" }
+  { binding = "kvMain", id = "aea172d2e5f44bd399f8d334a4af8694", preview_id = "ede98539b84a411eb34ba33c9cab2ef6" }
 ]

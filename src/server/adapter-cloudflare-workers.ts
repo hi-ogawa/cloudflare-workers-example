@@ -1,5 +1,4 @@
 import { NotFoundError, getAssetFromKV } from "@cloudflare/kv-asset-handler";
-// @ts-expect-error
 import __STATIC_CONTENT_MANIFEST from "__STATIC_CONTENT_MANIFEST";
 import { createHattipEntry } from ".";
 
