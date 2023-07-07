@@ -3,7 +3,7 @@ import { once } from "@hiogawa/utils";
 import { loggerMiddleware } from "@hiogawa/utils-experimental";
 import { importIndexHtml } from "@hiogawa/vite-import-index-html/dist/runtime";
 import { rpcHandler } from "../rpc/server";
-import { initializeKV } from "../utils/kv";
+import { initializeEnv } from "../utils/worker-env";
 import { runSSR } from "./ssr";
 
 export function createHattipEntry() {
@@ -30,7 +30,7 @@ function htmlHandler(): RequestHandler {
 
 function bootstrapHander(): RequestHandler {
   return once(async () => {
-    await initializeKV();
+    await initializeEnv();
   });
 }
 
