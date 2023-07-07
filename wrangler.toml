@@ -18,3 +18,9 @@ id = "aea172d2e5f44bd399f8d334a4af8694"
 binding = "kv"
 id = "aea172d2e5f44bd399f8d334a4af8694"
 preview_id = "ede98539b84a411eb34ba33c9cab2ef6"
+
+# npx wrangler d1 create demo
+[[d1_databases]]
+binding = "db"
+database_name = "demo"
+database_id = "b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1"
