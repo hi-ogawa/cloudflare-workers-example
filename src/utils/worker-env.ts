@@ -11,10 +11,13 @@ export function setEnv(v: any) {
 async function setEnvDev() {
   const { KVNamespace } = await import("@miniflare/kv");
   const { FileStorage } = await import("@miniflare/storage-file");
-  env.kv = new KVNamespace(new FileStorage(".wrangler/.vite-dev/kv"));
+  const process = await import("node:process");
+  const NODE_ENV = process.env["NODE_ENV"] ?? "development";
+  env.kv = new KVNamespace(
+    new FileStorage(`.wrangler/.node-env/${NODE_ENV}/kv`)
+  );
 }
 
-// setup kv for dev
 export async function initializeEnv() {
   if (import.meta.env.DEV) {
     await setEnvDev();
