@@ -6,15 +6,15 @@ no_bundle = true
 compatibility_date = "2023-04-20"
 compatibility_flags = [ "nodejs_compat" ]
 
-# npx wrangler kv:namespace create kv
-kv_namespaces = [
-  { binding = "kv", id = "aea172d2e5f44bd399f8d334a4af8694" }
-]
-
 [site]
 bucket = "./dist/cloudflare/bucket"
 
-[env.staging]
-kv_namespaces = [
-  { binding = "kv", id = "aea172d2e5f44bd399f8d334a4af8694", preview_id = "ede98539b84a411eb34ba33c9cab2ef6" }
-]
+# npx wrangler kv:namespace create kv
+[[kv_namespaces]]
+binding = "kv"
+id = "aea172d2e5f44bd399f8d334a4af8694"
+
+[[env.staging.kv_namespaces]]
+binding = "kv"
+id = "aea172d2e5f44bd399f8d334a4af8694"
+preview_id = "ede98539b84a411eb34ba33c9cab2ef6"
