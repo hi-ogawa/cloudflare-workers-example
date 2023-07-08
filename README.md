@@ -10,11 +10,12 @@ pnpm dev
 
 # run local workerd
 pnpm build
-make db/migrate/local
+make db/migrate/preview
 pnpm preview
 
 # release
 pnpm build
+make db/migrate/production
 pnpm release
 ```
 
