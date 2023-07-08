@@ -7,7 +7,7 @@
     "build": "run-s build:*",
     "build:vite": "vite build && vite build --ssr",
     "build:cloudflare": "bash misc/cloudflare/build.sh",
-    "preview": "wrangler dev --env local",
+    "preview": "wrangler dev --env preview",
     "release": "wrangler deploy --env staging",
     "release-production": "wrangler deploy",
     "tsc": "tsc -b",

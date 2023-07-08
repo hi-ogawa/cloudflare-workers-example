@@ -13,13 +13,13 @@ bucket = "./dist/cloudflare/bucket"
 # npx wrangler kv:namespace create kv
 [[kv_namespaces]]
 binding = "kv"
-id = "aea172d2e5f44bd399f8d334a4af8694"
+id = "aea172d2e5f44bd399f8d334a4af8694" # same as staging
 
 [[env.staging.kv_namespaces]]
 binding = "kv"
 id = "aea172d2e5f44bd399f8d334a4af8694"
 
-[[env.local.kv_namespaces]]
+[[env.preview.kv_namespaces]]
 binding = "kv"
 id = "__dummy"
 preview_id = "ede98539b84a411eb34ba33c9cab2ef6"
@@ -28,14 +28,14 @@ preview_id = "ede98539b84a411eb34ba33c9cab2ef6"
 [[d1_databases]]
 binding = "db"
 database_name = "demo"
-database_id = "__todo"
+database_id = "b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1" # same as staging
 
 [[env.staging.d1_databases]]
 binding = "db"
 database_name = "demo"
 database_id = "b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1"
 
-[[env.local.d1_databases]]
+[[env.preview.d1_databases]]
 binding = "db"
 database_name = "demo"
 database_id = "__dummy"
