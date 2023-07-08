@@ -1,6 +1,6 @@
 import { createTinyRpcClientProxy } from "@hiogawa/tiny-rpc";
-import { rpcRoutes } from "./server";
+import type { RpcRoutes } from "./server";
 
-export const rpcClient = createTinyRpcClientProxy<typeof rpcRoutes>({
+export const rpcClient = createTinyRpcClientProxy<RpcRoutes>({
   endpoint: "/rpc",
 });
