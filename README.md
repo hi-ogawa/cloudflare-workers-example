@@ -17,6 +17,6 @@ pnpm release
 - [x] SSR server
 - [x] API server
 - [x] client assets on `bucket`
-- [x] persistence on `KV`
+- [x] persistence on `KV` and `D1`
 - [x] HMR dev server with `vite`
 - [x] local preview server with `wrangler dev`

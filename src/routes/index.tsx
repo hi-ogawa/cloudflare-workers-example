@@ -18,14 +18,51 @@ export function Page() {
             target="_blank"
           ></a>
         </header>
-        <PageInner />
+        <main className="flex flex-col gap-2 p-4 mx-auto w-full max-w-2xl">
+          <CounterComponent label="Counter KV" useCounter={useCounterKV} />
+          <CounterComponent label="Counter D1" useCounter={useCounterD1} />
+        </main>
       </div>
     </React.Suspense>
   );
 }
 
-function PageInner() {
-  const queryKey = ["getCounter"];
+function CounterComponent(props: { label: string; useCounter: UseCounter }) {
+  const { getCounterQuery, updateCounterMutation } = props.useCounter();
+  const loading = getCounterQuery.isLoading || updateCounterMutation.isLoading;
+
+  return (
+    <div className="flex flex-col gap-2 border p-2">
+      <div className="flex items-center gap-3">
+        <span>
+          {props.label} = {getCounterQuery.data ?? "..."}
+        </span>
+        {loading && <div className="antd-spin w-4 h-4"></div>}
+      </div>
+      <div className="flex gap-2">
+        <button
+          className="antd-btn antd-btn-default px-2"
+          disabled={loading}
+          onClick={() => updateCounterMutation.mutate(-1)}
+        >
+          -1
+        </button>
+        <button
+          className="antd-btn antd-btn-default px-2"
+          disabled={loading}
+          onClick={() => updateCounterMutation.mutate(+1)}
+        >
+          +1
+        </button>
+      </div>
+    </div>
+  );
+}
+
+type UseCounter = typeof useCounterKV;
+
+function useCounterKV() {
+  const queryKey = ["getCounterKV"];
   const getCounterQuery = useQuery({
     queryKey,
     queryFn: import.meta.env.SSR
@@ -42,32 +79,26 @@ function PageInner() {
     },
   });
 
-  const loading = getCounterQuery.isLoading || updateCounterMutation.isLoading;
+  return { getCounterQuery, updateCounterMutation };
+}
 
-  return (
-    <div className="flex flex-col gap-2 py-4 mx-auto w-full max-w-2xl">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3">
-          <span>Counter = {getCounterQuery.data ?? "..."}</span>
-          {loading && <div className="antd-spin w-4 h-4"></div>}
-        </div>
-        <div className="flex gap-2">
-          <button
-            className="antd-btn antd-btn-default px-2"
-            disabled={loading}
-            onClick={() => updateCounterMutation.mutate(-1)}
-          >
-            -1
-          </button>
-          <button
-            className="antd-btn antd-btn-default px-2"
-            disabled={loading}
-            onClick={() => updateCounterMutation.mutate(+1)}
-          >
-            +1
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+function useCounterD1() {
+  const queryKey = ["getCounterD1"];
+  const getCounterQuery = useQuery({
+    queryKey,
+    queryFn: import.meta.env.SSR
+      ? serverOnly.rpcRoutes.getCounterD1
+      : rpcClient.getCounterD1,
+    suspense: import.meta.env.SSR,
+  });
+
+  const queryClient = useQueryClient();
+  const updateCounterMutation = useMutation({
+    mutationFn: rpcClient.updateCounterD1,
+    onSuccess(data, _variables, _context) {
+      queryClient.setQueryData(queryKey, data);
+    },
+  });
+
+  return { getCounterQuery, updateCounterMutation };
 }

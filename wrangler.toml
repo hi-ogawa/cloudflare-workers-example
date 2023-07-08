@@ -2,7 +2,8 @@ name = "cloudflare-workers-example"
 
 main = "./dist/cloudflare/index.js"
 workers_dev = true
-no_bundle = true
+# some worker api requires extra module to be injected during bundle e.g. https://github.com/cloudflare/workers-sdk/blob/5a74cb559611b1035fe97ebbe870d7061f3b41d0/packages/wrangler/src/deployment-bundle/bundle.ts#L298
+no_bundle = false
 compatibility_date = "2023-04-20"
 compatibility_flags = [ "nodejs_compat" ]
 
@@ -17,10 +18,26 @@ id = "aea172d2e5f44bd399f8d334a4af8694"
 [[env.staging.kv_namespaces]]
 binding = "kv"
 id = "aea172d2e5f44bd399f8d334a4af8694"
+
+[[env.local.kv_namespaces]]
+binding = "kv"
+id = "__dummy"
 preview_id = "ede98539b84a411eb34ba33c9cab2ef6"
 
 # npx wrangler d1 create demo
 [[d1_databases]]
 binding = "db"
 database_name = "demo"
+database_id = "__todo"
+
+[[env.staging.d1_databases]]
+binding = "db"
+database_name = "demo"
 database_id = "b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1"
+
+# npx wrangler d1 execute demo --env local --command "PRAGMA table_list" --local
+[[env.local.d1_databases]]
+binding = "db"
+database_name = "demo"
+database_id = "__dummy"
+preview_database_id = "demo-preview"
