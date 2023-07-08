@@ -6,6 +6,8 @@ import { z } from "zod";
 import { sql } from "../db/sql";
 import { env } from "../utils/worker-env";
 
+export type RpcRoutes = typeof rpcRoutes;
+
 export const rpcRoutes = {
   getCounterKV: () => counterKV.get(),
   updateCounterKV: zodFn(z.number())(async (delta) => counterKV.update(delta)),
