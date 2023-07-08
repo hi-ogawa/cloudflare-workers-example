@@ -12,7 +12,7 @@ export function createHattipEntry() {
     errorHandler(),
     bootstrapHander(),
     rpcHandler(),
-    htmlHandler(),
+    htmlHandler()
   );
 }
 
@@ -41,7 +41,7 @@ function errorHandler(): RequestHandler {
       return new Response(
         "[errorHandler] " +
           (e instanceof Error ? e.stack ?? e.message : String(e)),
-        { status: 500 },
+        { status: 500 }
       );
     };
   };
