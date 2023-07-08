@@ -1,6 +1,9 @@
 # everything phony
 .PHONY: $(shell grep --no-filename -E '^([a-zA-Z_-]|/)+:' $(MAKEFILE_LIST) | sed 's/:.*//')
 
+# use ad-hoc script rather than wrangler migration cli e.g.
+# https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/d1/migrations/apply.tsx#L152-L159
+
 db/reset:
 	mkdir -p .wrangler/.node-env/development
 	rm -f .wrangler/.node-env/development/d1.sqlite
