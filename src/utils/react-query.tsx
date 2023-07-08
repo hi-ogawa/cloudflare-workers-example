@@ -53,7 +53,7 @@ export function getQueryClientStateScript(queryClient: QueryClient) {
 }
 
 export function ReactQueryWrapper(
-  props: React.PropsWithChildren<{ queryClient: QueryClient }>
+  props: React.PropsWithChildren<{ queryClient: QueryClient }>,
 ) {
   return (
     <QueryClientProvider client={props.queryClient}>
