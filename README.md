@@ -27,4 +27,4 @@ pnpm release
 - [x] persistence on `KV` and `D1`
 - [x] HMR dev server with `vite`
 - [x] local preview server with `wrangler dev`
-- [ ] E2E testing on CI
+- [x] E2E testing on CI
