@@ -32,7 +32,7 @@ function CounterComponent(props: { label: string; useCounter: UseCounter }) {
   const loading = getCounterQuery.isLoading || updateCounterMutation.isLoading;
 
   return (
-    <div className="flex flex-col gap-2 border p-2">
+    <div className="flex flex-col gap-2 border p-2" data-testid={props.label}>
       <div className="flex items-center gap-3">
         <span>
           {props.label} = {getCounterQuery.data ?? "..."}

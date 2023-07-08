@@ -17,3 +17,8 @@ jobs:
       - run: pnpm lint-check
       - run: pnpm build
       - run: pnpm tsc
+      - run: make test-setup
+      - run: npx playwright install chromium
+      - run: pnpm test-e2e
+      - run: E2E_WEB_SERVER_COMMAND='pnpm preview' pnpm test-e2e
+      - run: cat dev-e2e.log

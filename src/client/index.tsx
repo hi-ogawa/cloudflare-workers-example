@@ -21,6 +21,7 @@ function main() {
     </React.StrictMode>
   );
   hydrateRoot(el, reactEl);
+  el.dataset["testid"] = "hydrated"; // for e2e
 }
 
 main();

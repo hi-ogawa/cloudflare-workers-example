@@ -9,8 +9,16 @@ db/reset:
 	rm -f .wrangler/.node-env/development/d1.sqlite
 	echo 'PRAGMA table_list' | sqlite3 .wrangler/.node-env/development/d1.sqlite
 
+db/reset/test:
+	mkdir -p .wrangler/.node-env/test
+	rm -f .wrangler/.node-env/test/d1.sqlite
+	echo 'PRAGMA table_list' | sqlite3 .wrangler/.node-env/test/d1.sqlite
+
 db/migrate:
 	sqlite3 .wrangler/.node-env/development/d1.sqlite < src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql
+
+db/migrate/test:
+	sqlite3 .wrangler/.node-env/test/d1.sqlite < src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql
 
 db/reset/preview:
 	rm -rf .wrangler/state/v3/d1/demo-preview/db.sqlite
@@ -23,3 +31,7 @@ db/migrate/production:
 
 db/migrate/production/down:
 	npx wrangler d1 execute demo --file src/db/migrations/2023-07-08-11-49-30-create-table-counter/down.sql
+
+test-setup:
+	rm -rf .wrangler/.node-env/test .wrangler/state
+	make db/reset/test db/migrate/test db/migrate/preview
