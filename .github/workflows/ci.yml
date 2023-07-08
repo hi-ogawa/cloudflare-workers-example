@@ -17,3 +17,7 @@ jobs:
       - run: pnpm lint-check
       - run: pnpm build
       - run: pnpm tsc
+      - run: make test-setup
+      - run: pnpm test-e2e
+      # TODO
+      # - run: E2E_WEB_SERVER_COMMAND='pnpm preview' pnpm test-e2e
