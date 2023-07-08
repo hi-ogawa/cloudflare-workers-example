@@ -1,9 +1,9 @@
-import { expect, test } from "@playwright/test";
+import { type Page, expect, test } from "@playwright/test";
 
 // prettier-ignore
 test("basic", async ({ page, request }) => {
   await page.goto("/");
-  await page.getByTestId("hydrated").waitFor({ state: "attached" });
+  await waitForHydration(page);
 
   // increment counter
   await page.getByText('Counter KV = 0').click();
@@ -24,6 +24,7 @@ test("basic", async ({ page, request }) => {
 
   // reload
   await page.reload();
+  await waitForHydration(page);
 
   // decrement
   await page.getByText('Counter KV = 1').click();
@@ -36,3 +37,7 @@ test("basic", async ({ page, request }) => {
   await page.getByTestId('Counter D1').getByRole('button', { name: '-1' }).click();
   await page.getByText('Counter D1 = 0').click();
 });
+
+async function waitForHydration(page: Page) {
+  await page.getByTestId("hydrated").waitFor({ state: "attached" });
+}
