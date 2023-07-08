@@ -9,3 +9,12 @@ db/reset:
 
 db/migrate:
 	sqlite3 .wrangler/.node-env/development/d1.sqlite < src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql
+
+db/migrate/local:
+	npx wrangler d1 execute demo --env local --local --file src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql
+
+db/migrate/staging:
+	npx wrangler d1 execute demo --env staging --file src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql
+
+db/migrate/production:
+	npx wrangler d1 execute demo --env production --file src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql

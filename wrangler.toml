@@ -35,9 +35,8 @@ binding = "db"
 database_name = "demo"
 database_id = "b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1"
 
-# npx wrangler d1 execute demo --env local --command "PRAGMA table_list" --local
 [[env.local.d1_databases]]
 binding = "db"
 database_name = "demo"
 database_id = "__dummy"
-preview_database_id = "demo-preview"
+preview_database_id = "demo-preview" # .wrangler/state/v3/d1/demo-preview/db.sqlite
