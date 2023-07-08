@@ -33,8 +33,5 @@ db/migrate/production/down:
 	npx wrangler d1 execute demo --file src/db/migrations/2023-07-08-11-49-30-create-table-counter/down.sql
 
 test-setup:
-	rm -rf .wrangler/.node-env/test
-	make db/reset/test db/migrate/test
-	# TODO: workerd preview
-	# rm -rf .wrangler/.node-env/test .wrangler/state
-	# make db/reset/test db/migrate/test db/migrate/preview
+	rm -rf .wrangler/.node-env/test .wrangler/state
+	make db/reset/test db/migrate/test db/migrate/preview
