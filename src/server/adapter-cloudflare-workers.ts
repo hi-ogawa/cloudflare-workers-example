@@ -18,7 +18,7 @@ function createFetchHandler() {
   return async (
     request: Request,
     env: unknown,
-    ctx: unknown
+    ctx: unknown,
   ): Promise<Response> => {
     setEnv(env);
 
@@ -38,7 +38,7 @@ function createFetchHandler() {
               browserTTL: 60 * 60 * 24 * 365,
               edgeTTL: 60 * 60 * 24 * 365,
             },
-          }
+          },
         );
       } catch (e) {
         if (!(e instanceof NotFoundError)) {
@@ -49,7 +49,7 @@ function createFetchHandler() {
             ]
               .filter(Boolean)
               .join("\n"),
-            { status: 500 }
+            { status: 500 },
           );
         }
       }
