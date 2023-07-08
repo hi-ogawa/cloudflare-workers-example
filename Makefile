@@ -12,7 +12,7 @@ db/reset:
 db/reset/test:
 	mkdir -p .wrangler/.node-env/test
 	rm -f .wrangler/.node-env/test/d1.sqlite
-	echo 'PRAGMA table_list' | sqlite3 .wrangler/.node-env/development/d1.sqlite
+	echo 'PRAGMA table_list' | sqlite3 .wrangler/.node-env/test/d1.sqlite
 
 db/migrate:
 	sqlite3 .wrangler/.node-env/development/d1.sqlite < src/db/migrations/2023-07-08-11-49-30-create-table-counter/up.sql
