@@ -7,7 +7,7 @@
     "build": "run-s build:*",
     "build:vite": "vite build && vite build --ssr",
     "build:cloudflare": "bash misc/cloudflare/build.sh",
-    "preview": "wrangler dev --env staging",
+    "preview": "wrangler dev --env preview",
     "release": "wrangler deploy --env staging",
     "release-production": "wrangler deploy",
     "tsc": "tsc -b",
@@ -36,7 +36,9 @@
     "@hiogawa/utils-experimental": "^0.1.0",
     "@hiogawa/vite-import-index-html": "^0.1.0",
     "@iconify-json/ri": "^1.1.10",
+    "@miniflare/d1": "^2.14.0",
     "@miniflare/kv": "^2.14.0",
+    "@miniflare/shared": "^2.14.0",
     "@miniflare/storage-file": "^2.14.0",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",
@@ -52,7 +54,7 @@
     "typescript": "^5.1.6",
     "unocss": "^0.53.4",
     "vite": "^4.3.9",
-    "wrangler": "^3.1.1",
+    "wrangler": "^3.1.2",
     "zod": "^3.21.4"
   }
 }
