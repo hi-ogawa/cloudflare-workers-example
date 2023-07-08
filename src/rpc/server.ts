@@ -7,8 +7,8 @@ import { sql } from "../db/sql";
 import { env } from "../utils/worker-env";
 
 export const rpcRoutes = {
-  getCounter: () => counterKV.get(),
-  updateCounter: zodFn(z.number())(async (delta) => counterKV.update(delta)),
+  getCounterKV: () => counterKV.get(),
+  updateCounterKV: zodFn(z.number())(async (delta) => counterKV.update(delta)),
 
   getCounterD1: () => counterD1.get(),
   updateCounterD1: zodFn(z.number())(async (delta) => counterD1.update(delta)),

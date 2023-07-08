@@ -66,14 +66,14 @@ function useCounterKV() {
   const getCounterQuery = useQuery({
     queryKey,
     queryFn: import.meta.env.SSR
-      ? serverOnly.rpcRoutes.getCounter
-      : rpcClient.getCounter,
+      ? serverOnly.rpcRoutes.getCounterKV
+      : rpcClient.getCounterKV,
     suspense: import.meta.env.SSR,
   });
 
   const queryClient = useQueryClient();
   const updateCounterMutation = useMutation({
-    mutationFn: rpcClient.updateCounter,
+    mutationFn: rpcClient.updateCounterKV,
     onSuccess(data, _variables, _context) {
       queryClient.setQueryData(queryKey, data);
     },
