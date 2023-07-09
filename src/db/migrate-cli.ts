@@ -92,11 +92,17 @@ class RawSqlMigrationProvider implements MigrationProvider {
 }
 
 async function readSqlFile(filepath: string): Promise<Migration["up"]> {
+  // TODO: to support multiple statements, we need to split like https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/d1/splitter.ts#L27
+  //       for now, we rely on ad-hoc explicit marker to split.
   const content = await fs.promises.readFile(filepath, "utf-8");
   return async (db) => {
-    await sql.raw(content).execute(db);
+    for (const stmt of content.trim().split(SPLIT_MARKER)) {
+      await sql.raw(stmt).execute(db);
+    }
   };
 }
+
+const SPLIT_MARKER = "--split";
 
 //
 // main
