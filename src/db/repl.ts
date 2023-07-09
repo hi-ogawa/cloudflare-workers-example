@@ -7,6 +7,7 @@ import { setWorkerEnvDev } from "../utils/worker-env-dev";
 // D1_DATABASE_ID=b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1 pnpm repl
 // > await sql`SELECT 1 + 1`.execute(db)
 // > await sql`PRAGMA table_list`.execute(db)
+// > await db.selectFrom("counter").selectAll().execute()
 
 async function main() {
   console.log("* initializing environemtnt...");
