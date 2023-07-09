@@ -45,11 +45,10 @@ export function createD1Api(options: D1ApiConfig): D1Database {
       throw new Error("HackyD1 Error", { cause: resText });
     }
 
-    // for some reason, response looks a bit different from what miniflare/workers-sdk expects?
-    // for now, we only need to unwrap first `result`?
-    // https://github.com/cloudflare/miniflare/blob/7e4d906e19cc69cd3446512bfeb7f8aee3a2bda7/packages/d1/src/d1js.ts#L141-L143
     const dummyRes = {
       json: async () => {
+        // `D1Database` expects to check `success` and unwrap `result`?
+        // https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/cfetch/index.ts#L39-L40
         const resJson = await res.json();
         const parsed = Z_QUERY_RESPONSE.parse(resJson);
         tinyassert(parsed.success);
