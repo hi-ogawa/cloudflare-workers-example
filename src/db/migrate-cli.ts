@@ -94,6 +94,8 @@ class RawSqlMigrationProvider implements MigrationProvider {
 async function readSqlFile(filepath: string): Promise<Migration["up"]> {
   // TODO: to support multiple statements, we need to split like https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/d1/splitter.ts#L27
   //       for now, we rely on ad-hoc explicit marker to split.
+  // TODO: this limintation might be only for miniflare/sqlite https://github.com/cloudflare/miniflare/blob/7e4d906e19cc69cd3446512bfeb7f8aee3a2bda7/packages/d1/src/api.ts#L101-L102
+  //       since wrangler's remote execution clearly "join"s queries by batch https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/d1/execute.tsx#L216
   const content = await fs.promises.readFile(filepath, "utf-8");
   return async (db) => {
     for (const stmt of content.trim().split(SPLIT_MARKER)) {
