@@ -17,7 +17,7 @@ pnpm build
 pnpm release
 
 # migration on D1
-DEBUG=kysely pnpm migrate-production status
+pnpm migrate-production status
 ```
 
 ## summary
@@ -26,7 +26,7 @@ DEBUG=kysely pnpm migrate-production status
 - [x] API server
 - [x] client assets on `bucket`
 - [x] persistence on `KV` and `D1`
-- [x] kysely for database migration (see `./src/db/migrate-cli.ts`)
+- [x] kysely for both local and remote `D1` migration (see `./src/db/migrate-cli.ts`)
 - [x] HMR dev server with `vite`
 - [x] local preview server with `wrangler dev`
 - [x] E2E testing on CI
