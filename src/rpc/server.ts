@@ -2,8 +2,9 @@ import type { RequestHandler } from "@hattip/compose";
 import { type TinyRpcRoutes, createTinyRpcHandler } from "@hiogawa/tiny-rpc";
 import { zodFn } from "@hiogawa/tiny-rpc/dist/zod";
 import { tinyassert } from "@hiogawa/utils";
+import { sql } from "kysely";
 import { z } from "zod";
-import { sql } from "../db/sql";
+import { db } from "../db";
 import { env } from "../utils/worker-env";
 
 export type RpcRoutes = typeof rpcRoutes;
@@ -47,17 +48,19 @@ const counterD1 = {
   id: 1,
 
   async get() {
-    const rows = await sql<{
+    const { rows } = await sql<{
       value: number;
-    }>`SELECT value from counter where id = ${this.id}`;
+    }>`SELECT value from counter where id = ${this.id}`.execute(db);
     tinyassert(rows.length === 1);
     return rows[0].value;
   },
 
   async update(delta: number) {
-    const rows = await sql<{
+    const { rows } = await sql<{
       value: number;
-    }>`UPDATE Counter SET value = value + ${delta} WHERE id = ${this.id} RETURNING value`;
+    }>`UPDATE Counter SET value = value + ${delta} WHERE id = ${this.id} RETURNING value`.execute(
+      db,
+    );
     tinyassert(rows.length === 1);
     return rows[0].value;
   },
