@@ -20,7 +20,7 @@ function createFetchHandler() {
     env: unknown,
     ctx: unknown,
   ): Promise<Response> => {
-    setEnv(env);
+    setEnv(env as any);
 
     const waitUntil = (ctx as any).waitUntil.bind(ctx);
 
