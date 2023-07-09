@@ -35,3 +35,13 @@ db/migrate/production/down:
 test-setup:
 	rm -rf .wrangler/.node-env/test .wrangler/state
 	make db/reset/test db/migrate/test db/migrate/preview
+
+# db/reset/dev:
+# 	mkdir -p .wrangler/.node-env/development
+# 	rm -f .wrangler/.node-env/development/d1.sqlite
+# 	pnpm -s migrate latest
+
+# db/reset/test:
+# 	mkdir -p .wrangler/.node-env/test
+# 	rm -f .wrangler/.node-env/test/d1.sqlite
+# 	NODE_ENV=test pnpm -s migrate latest
