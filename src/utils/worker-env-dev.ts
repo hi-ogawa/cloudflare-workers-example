@@ -8,6 +8,7 @@ import { getWranglerCredentials } from "../db/wrangler-credentials";
 import { setEnv } from "./worker-env";
 
 // also used for repl/migration cli
+// (note that cli doesn't go through vite, so we cannot rely on e.g. `import.meta.env`)
 export async function setWorkerEnvDev() {
   const NODE_ENV = process.env["NODE_ENV"] ?? "development";
   const baseDir = `.wrangler/.node-env/${NODE_ENV}/`;
