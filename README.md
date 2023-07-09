@@ -5,18 +5,19 @@ trying out cloudflare workers and wrangler cli workflow.
 ```sh
 # dev
 pnpm i
-make db/migrate
+make db/reset
 pnpm dev
 
 # run local workerd
 pnpm build
-make db/migrate/preview
 pnpm preview
 
 # release
 pnpm build
-make db/migrate/production
 pnpm release
+
+# migration on D1
+pnpm migrate-production status
 ```
 
 ## summary

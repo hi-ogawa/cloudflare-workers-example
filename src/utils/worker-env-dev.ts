@@ -34,5 +34,6 @@ export async function setWorkerEnvDev() {
   setEnv({
     kv,
     db,
+    DEBUG: process.env["DEBUG"],
   });
 }

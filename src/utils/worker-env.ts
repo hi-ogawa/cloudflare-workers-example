@@ -4,6 +4,7 @@ import type { KVNamespace } from "@miniflare/kv";
 export let env: {
   kv: KVNamespace;
   db: D1Database;
+  DEBUG?: string;
 } = {} as any;
 
 export function setEnv(v: typeof env) {

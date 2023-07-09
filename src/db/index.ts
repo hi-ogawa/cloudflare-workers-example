@@ -7,7 +7,8 @@ export let db: Kysely<unknown>;
 export async function initializeDb() {
   db = new Kysely<unknown>({
     dialect: new D1Dialect(env.db),
-    // for debug
-    // log: ["error", "query"]
+    // dump query executed by kysely e.g.
+    //   DEBUG=kysely pnpm migrate status
+    log: env.DEBUG?.includes("kysely") ? ["error", "query"] : undefined,
   });
 }
