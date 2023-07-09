@@ -43,7 +43,7 @@ export function createD1Api(options: D1ApiConfig): D1Database {
     });
     if (!res.ok) {
       const resText = await res.text();
-      throw new Error("HackyD1 Error", { cause: resText });
+      throw new Error("D1API Error", { cause: resText });
     }
 
     const dummyRes = {
@@ -52,7 +52,9 @@ export function createD1Api(options: D1ApiConfig): D1Database {
         // https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/cfetch/index.ts#L39-L40
         const resJson = await res.json();
         const parsed = Z_QUERY_RESPONSE.parse(resJson);
-        tinyassert(parsed.success);
+        if (!parsed.success) {
+          throw new Error("D1API Error", { cause: JSON.stringify(resJson) });
+        }
         return parsed.result;
       },
     };

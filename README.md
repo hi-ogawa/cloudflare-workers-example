@@ -17,7 +17,7 @@ pnpm build
 pnpm release
 
 # migration on D1
-pnpm migrate-production status
+DEBUG=kysely pnpm migrate-production status
 ```
 
 ## summary
