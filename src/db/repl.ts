@@ -15,6 +15,11 @@ async function main() {
 
   console.log("* repl is ready");
   const replServer = repl.start();
+  replServer.setupHistory("./node_modules/.cache/__repl-history.txt", (e) => {
+    if (e) {
+      console.error("* repl histroy error", e);
+    }
+  });
   Object.assign(replServer.context, {
     sql,
     db,

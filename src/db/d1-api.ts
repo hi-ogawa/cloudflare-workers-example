@@ -40,22 +40,17 @@ export function createD1Api(options: D1ApiConfig): D1Database {
       ...init,
       headers: headers2,
     });
-    if (!res.ok) {
-      const resText = await res.text();
-      throw new Error("D1API Error", { cause: resText });
+
+    // `D1Database` expects to check `success` and unwrap `result`
+    // https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/cfetch/index.ts#L39-L40
+    const resJson = await res.json();
+    const parsed = Z_QUERY_RESPONSE.parse(resJson);
+    if (!parsed.success) {
+      throw new Error("D1API_ERROR", { cause: resJson });
     }
 
     const dummyRes = {
-      json: async () => {
-        // `D1Database` expects to check `success` and unwrap `result`?
-        // https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/cfetch/index.ts#L39-L40
-        const resJson = await res.json();
-        const parsed = Z_QUERY_RESPONSE.parse(resJson);
-        if (!parsed.success) {
-          throw new Error("D1API Error", { cause: JSON.stringify(resJson) });
-        }
-        return parsed.result;
-      },
+      json: async () => parsed.result,
     };
     return dummyRes as Response;
   };

@@ -46,7 +46,14 @@ export class D1DatabaseConnection implements DatabaseConnection {
     const res = await this.db
       .prepare(q.sql)
       .bind(...q.parameters)
-      .all<R>();
+      .all<R>()
+      .catch((e) => {
+        if (e instanceof Error) {
+          // explicit logging for quick diagnostic
+          console.error("* D1 Error", e.cause);
+        }
+        throw e;
+      });
     if (!res.success) {
       throw new Error("D1Dialect error", { cause: res.error });
     }
