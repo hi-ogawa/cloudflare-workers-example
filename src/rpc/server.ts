@@ -76,7 +76,7 @@ const counterD1 = {
     // kysely query builder
     const row = await db
       .updateTable("counter")
-      .set({ value: sql`value + 1` })
+      .set({ value: sql`value + ${delta}` })
       .where("id", "=", this.id)
       .returning("value")
       .executeTakeFirstOrThrow();
