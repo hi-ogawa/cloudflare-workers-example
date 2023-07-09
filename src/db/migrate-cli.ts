@@ -102,7 +102,7 @@ async function readSqlFile(filepath: string): Promise<Migration["up"]> {
   };
 }
 
-const SPLIT_MARKER = "--split";
+const SPLIT_MARKER = "-- @@SPLIT";
 
 //
 // main
