@@ -14,13 +14,13 @@ import { z } from "zod";
 // https://github.com/cloudflare/miniflare/blob/701d2ecbb75909ffc52fe5a9037a2c09b58507f0/packages/miniflare/src/plugins/d1/gateway.ts
 //
 
-type HackyD1Config = {
+type D1ApiConfig = {
   accountId: string;
   databaseId: string;
   token: string;
 };
 
-export function createHackyD1(options: HackyD1Config): D1Database {
+export function createD1Api(options: D1ApiConfig): D1Database {
   const d1fetch: typeof fetch = async (...args) => {
     const [url, init] = args;
     tinyassert(typeof url === "string");
