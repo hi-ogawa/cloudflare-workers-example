@@ -8,9 +8,6 @@ dependencies:
   kysely:
     specifier: ^0.26.0
     version: 0.26.0
-  kysely-d1:
-    specifier: ^0.3.0
-    version: 0.3.0(kysely@0.26.0)
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -2603,14 +2600,6 @@ packages:
   /kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
-
-  /kysely-d1@0.3.0(kysely@0.26.0):
-    resolution: {integrity: sha512-9wTbE6ooLiYtBa4wPg9e4fjfcmvRtgE/2j9pAjYrIq+iz+EsH/Hj9YbtxpEXA6JoRgfulVQ1EtGj6aycGGRpYw==}
-    peerDependencies:
-      kysely: '*'
-    dependencies:
-      kysely: 0.26.0
-    dev: false
 
   /kysely@0.26.0:
     resolution: {integrity: sha512-uj4wsWeWyGYoJlT4vNjO5wMjZxYp55I+igJJsJGe12R2WDZ4AWHNyRRMQz8Mdnv35DnHXck0S7/I2FIPEIZwjw==}

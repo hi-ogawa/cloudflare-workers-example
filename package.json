@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "kysely": "^0.26.0",
-    "kysely-d1": "^0.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

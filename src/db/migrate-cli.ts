@@ -29,7 +29,6 @@ async function mainCli() {
   });
 
   switch (command) {
-    case "":
     case "status": {
       const result = await migrator.getMigrations();
       for (const info of result) {
