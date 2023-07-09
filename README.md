@@ -25,6 +25,7 @@ pnpm release
 - [x] API server
 - [x] client assets on `bucket`
 - [x] persistence on `KV` and `D1`
+- [x] kysely for database migration (see `./src/db/migrate-cli.ts`)
 - [x] HMR dev server with `vite`
 - [x] local preview server with `wrangler dev`
 - [x] E2E testing on CI
