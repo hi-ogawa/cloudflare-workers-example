@@ -4,6 +4,7 @@ import { KVNamespace } from "@miniflare/kv";
 import { createSQLiteDB } from "@miniflare/shared";
 import { FileStorage } from "@miniflare/storage-file";
 import { createD1Api } from "../db/d1-api";
+import { debugDB } from "../db/debug";
 import { getWranglerCredentials } from "../db/wrangler-credentials";
 import { setEnv } from "./worker-env";
 
@@ -31,9 +32,14 @@ export async function setWorkerEnvDev() {
     db = new D1Database(new D1DatabaseAPI(sqlite));
   }
 
+  const DEBUG = process.env["DEBUG"];
+  if (DEBUG?.includes("db")) {
+    debugDB(db);
+  }
+
   setEnv({
     kv,
     db,
-    DEBUG: process.env["DEBUG"],
+    DEBUG,
   });
 }
