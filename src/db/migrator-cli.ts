@@ -19,7 +19,8 @@ async function mainCli() {
     driver: rawSqlMigrationDriver({
       table: "migration_states",
       async execute(query) {
-        return env.db.prepare(query).raw();
+        const all = await env.db.prepare(query).all();
+        return all.results ?? [];
       },
       async executeRaw(raw) {
         // D1 `exec` allows only "\n"-separated multi statements, so we have to analyze query on our own anyways...
@@ -65,7 +66,7 @@ async function mainCli() {
       return;
     }
   }
-  throw new Error(`unkonwn command '${command}'`);
+  throw new Error(`unknown command '${command}'`);
 }
 
 //

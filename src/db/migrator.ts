@@ -130,11 +130,14 @@ export class Migrator<T> {
     request: MigrationRequest<T>,
     direction: "up" | "down",
   ) {
-    await this.options.driver.run(request.up);
     if (direction === "up") {
+      await this.options.driver.run(request.up);
       const executedAt = new Date().toISOString();
       await this.options.driver.insert({ name: request.name, executedAt });
     } else {
+      if (request.down) {
+        await this.options.driver.run(request.down);
+      }
       await this.options.driver.delete({ name: request.name });
     }
   }
@@ -204,15 +207,10 @@ export function rawSqlMigrationDriver(options: {
     },
 
     select: async () => {
-      try {
-        const rows = await options.execute(
-          `SELECT * FROM ${options.table} ORDER BY name`,
-        );
-        return rows as MigrationState[];
-      } catch (e) {
-        console.error("* did you forget to run 'init'?");
-        throw e;
-      }
+      const rows = await options.execute(
+        `SELECT * FROM ${options.table} ORDER BY name`,
+      );
+      return rows as MigrationState[];
     },
 
     insert: async (state) => {
