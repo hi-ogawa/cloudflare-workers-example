@@ -26,7 +26,7 @@ pnpm migrate-production status
 - [x] API server
 - [x] client assets on `bucket`
 - [x] persistence on `KV` and `D1`
-- [x] both local and remote `D1` migration with `kysely` (see `./src/db/migrate-cli.ts`)
+- [x] migration cli for both local `sqlite` and remote `D1`
 - [x] HMR dev server with `vite`
 - [x] local preview server with `wrangler dev`
 - [x] E2E testing on CI
