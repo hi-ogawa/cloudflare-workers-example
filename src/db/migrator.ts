@@ -202,7 +202,7 @@ export function rawSqlMigrationDriver(options: {
   return {
     init: async () => {
       await options.execute(`\
-        CREATE TABLE IF NOT EXISTS ${options.table} (
+        CREATE TABLE ${options.table} (
           name       VARCHAR(128) NOT NULL PRIMARY KEY,
           executedAt VARCHAR(128) NOT NULL
         )

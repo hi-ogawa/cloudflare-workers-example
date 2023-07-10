@@ -12,7 +12,7 @@ import {
 
 async function mainCli() {
   const args = process.argv.slice(2);
-  const command = args[0] ?? "";
+  let command = args[0] ?? "";
 
   const migrator = new Migrator({
     provider: rawSqlMigrationProvider({ directory: "src/db/migrations" }),
@@ -41,6 +41,11 @@ async function mainCli() {
     }),
   });
 
+  if (command === "init-latest") {
+    await migrator.init();
+    command = "latest";
+  }
+
   switch (command) {
     case "init": {
       await migrator.init();
@@ -68,7 +73,9 @@ async function mainCli() {
     }
     case "-h":
     case "help": {
-      console.log("available commands: status, up, down, latest");
+      console.log(
+        "available commands: init, status, up, down, latest, init-latest",
+      );
       return;
     }
   }
