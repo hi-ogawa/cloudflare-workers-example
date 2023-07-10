@@ -192,11 +192,13 @@ export function rawSqlMigrationProvider(options: {
 
 export function rawSqlMigrationDriver(options: {
   table: string;
-  execute: (query: string, params?: unknown[]) => Promise<unknown[]>;
+  execute: (query: string) => Promise<unknown[]>;
+  executeRaw: (query: string) => Promise<void>;
 }): Options<string>["driver"] {
+  // TODO: escape/binding
   return {
     init: async () => {
-      await options.execute(`\
+      await options.executeRaw(`\
         CREATE TABLE IF NOT EXISTS ${options.table} (
           name       VARCHAR(128) NOT NULL PRIMARY KEY,
           executedAt VARCHAR(128) NOT NULL
@@ -218,19 +220,18 @@ export function rawSqlMigrationDriver(options: {
 
     insert: async (state) => {
       await options.execute(
-        `INSERT INTO ${options.table} (name, executedAt) VALUES (?, ?)`,
-        [state.name, state.executedAt],
+        `INSERT INTO ${options.table} (name, executedAt) VALUES ('${state.name}', '${state.executedAt}')`,
       );
     },
 
     delete: async (state) => {
-      await options.execute(`DELETE FROM ${options.table} WHERE name = ?`, [
-        state.name,
-      ]);
+      await options.execute(
+        `DELETE FROM ${options.table} WHERE name = '${state.name}'`,
+      );
     },
 
     run: async (query) => {
-      await options.execute(query);
+      await options.executeRaw(query);
     },
   };
 }

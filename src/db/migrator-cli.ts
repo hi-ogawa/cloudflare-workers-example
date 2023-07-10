@@ -3,16 +3,10 @@ import { consola } from "consola";
 import { env } from "../utils/worker-env";
 import { setWorkerEnvDev } from "../utils/worker-env-dev";
 import {
-  type MigrationResultSet,
   Migrator,
   rawSqlMigrationDriver,
   rawSqlMigrationProvider,
 } from "./migrator";
-
-// based on https://github.com/hi-ogawa/vite-fullstack-example/blob/e7bb3b71ea4746a4817e040fc87d9ea171328396/src/db/migrate-cli.ts#L16-L23
-//
-// usage:
-//   pnpm migrate
 
 async function mainCli() {
   const args = process.argv.slice(2);
@@ -22,11 +16,11 @@ async function mainCli() {
     provider: rawSqlMigrationProvider({ directory: "src/db/migrations" }),
     driver: rawSqlMigrationDriver({
       table: "sql_migrations",
-      async execute(query, params) {
-        query;
-        params;
-        env.db;
-        return [];
+      async execute(query) {
+        return env.db.prepare(query).raw();
+      },
+      async executeRaw(query) {
+        await env.db.exec(query);
       },
     }),
   });
@@ -38,40 +32,27 @@ async function mainCli() {
     }
     case "status": {
       const result = await migrator.status();
-      result;
-      // for (const info of result) {
-      //   console.log(
-      //     `${info.name}: ${info.executedAt?.toISOString() ?? "(pending)"}`,
-      //   );
-      // }
+      for (const [name, e] of result.map) {
+        console.log(name, ":", e.state?.executedAt ?? "(pending)");
+      }
       return;
     }
-    case "up": {
-      const result = await migrator.up();
-      handleResult(result);
-      return;
-    }
-    case "down": {
-      const result = await migrator.down();
-      handleResult(result);
-      return;
-    }
+    case "up":
+    case "down":
     case "latest": {
-      const result = await migrator.latest();
-      handleResult(result);
+      const result = await migrator[command]();
+      console.log(":: executed migrations");
+      for (const r of result.results) {
+        console.log(r.name, r.status, r.direction);
+      }
+      if (result.error) {
+        throw result.error;
+      }
       return;
     }
     default: {
       throw new Error("unkonwn command", { cause: command });
     }
-  }
-}
-
-function handleResult(result: MigrationResultSet) {
-  console.log(":: executed migrations");
-  console.log(result.results);
-  if (result.error) {
-    throw result.error;
   }
 }
 
