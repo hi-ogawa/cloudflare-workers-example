@@ -39,7 +39,7 @@ interface MigrationResult {
   status: "success" | "error";
 }
 
-interface MigrationResultSet {
+export interface MigrationResultSet {
   error?: unknown;
   results: MigrationResult[];
 }
@@ -205,10 +205,15 @@ export function rawSqlMigrationDriver(options: {
     },
 
     select: async () => {
-      const rows = await options.execute(
-        `SELECT * FROM ${options.table} ORDER BY name`,
-      );
-      return rows as MigrationState[];
+      try {
+        const rows = await options.execute(
+          `SELECT * FROM ${options.table} ORDER BY name`,
+        );
+        return rows as MigrationState[];
+      } catch (e) {
+        console.error("* did you forget to run 'init'?");
+        throw e;
+      }
     },
 
     insert: async (state) => {
