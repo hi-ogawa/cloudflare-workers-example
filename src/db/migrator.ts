@@ -47,10 +47,6 @@ export interface MigrationResultSet {
 export class Migrator<T> {
   constructor(private options: Options<T>) {}
 
-  async init() {
-    await this.options.driver.init();
-  }
-
   async status() {
     return await this.getRequestStateMap();
   }
@@ -71,6 +67,7 @@ export class Migrator<T> {
   }
 
   private async getRequestStateMap() {
+    await this.options.driver.init(); // auto init migration table
     const requests = await this.options.provider();
     const states = await this.options.driver.select();
     const map: MigrationRequestStateMap<T> = new Map();
@@ -195,10 +192,10 @@ export function rawSqlMigrationDriver(options: {
   execute: (query: string) => Promise<unknown[]>;
   executeRaw: (query: string) => Promise<void>;
 }): Options<string>["driver"] {
-  // TODO: escape/binding
+  // TODO: escape/binding?
   return {
     init: async () => {
-      await options.executeRaw(`\
+      await options.execute(`\
         CREATE TABLE IF NOT EXISTS ${options.table} (
           name       VARCHAR(128) NOT NULL PRIMARY KEY,
           executedAt VARCHAR(128) NOT NULL
