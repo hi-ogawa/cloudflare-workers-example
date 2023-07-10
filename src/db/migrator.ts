@@ -47,6 +47,10 @@ export interface MigrationResultSet {
 export class Migrator<T> {
   constructor(private options: Options<T>) {}
 
+  async init() {
+    await this.options.driver.init(); // TODO: auto init on getRequestStateMap?
+  }
+
   async status() {
     return await this.getRequestStateMap();
   }
@@ -67,7 +71,6 @@ export class Migrator<T> {
   }
 
   private async getRequestStateMap() {
-    await this.options.driver.init(); // auto init migration table
     const requests = await this.options.provider();
     const states = await this.options.driver.select();
     const map: MigrationRequestStateMap<T> = new Map();
@@ -207,10 +210,14 @@ export function rawSqlMigrationDriver(options: {
     },
 
     select: async () => {
-      const rows = await options.execute(
-        `SELECT * FROM ${options.table} ORDER BY name`,
-      );
-      return rows as MigrationState[];
+      try {
+        const rows = await options.execute(
+          `SELECT * FROM ${options.table} ORDER BY name`,
+        );
+        return rows as MigrationState[];
+      } catch (e) {
+        throw new Error("Did you forget to run 'init'?", { cause: e });
+      }
     },
 
     insert: async (state) => {

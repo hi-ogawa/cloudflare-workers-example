@@ -42,6 +42,10 @@ async function mainCli() {
   });
 
   switch (command) {
+    case "init": {
+      await migrator.init();
+      return;
+    }
     case "status": {
       const result = await migrator.status();
       for (const [name, e] of result.map) {
