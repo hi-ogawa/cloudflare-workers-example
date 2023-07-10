@@ -34,7 +34,9 @@ async function mainCli() {
           .split(/;\n/)
           .map((s) => s.trim())
           .filter(Boolean);
-        await env.db.batch(queries.map((q) => env.db.prepare(q)));
+        for (const query of queries) {
+          await env.db.prepare(query).all();
+        }
       },
     }),
   });
