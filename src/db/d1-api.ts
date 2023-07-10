@@ -26,8 +26,12 @@ export function createD1Api(options: D1ApiConfig): D1Database {
     tinyassert(typeof url === "string");
     tinyassert(init);
 
-    // TODO: we might not need "/dump" and "/execute" ?
-    tinyassert(url === "/query", `unsupported endpoint '${url}'`);
+    // TODO: we might not need "/dump" and "/execute" ? (actually "/execute" is currently 4040 not found...)
+    if (url !== "/query") {
+      throw new Error("D1API_ERROR", {
+        cause: `unsupported endpoint '${url}'`,
+      });
+    }
 
     // https://github.com/cloudflare/workers-sdk/blob/1ce32968b990fef59953b8cd61172b98fb2386e5/packages/wrangler/src/environment-variables/misc-variables.ts#L52
     const url2 = `https://api.cloudflare.com/client/v4/accounts/${options.accountId}/d1/database/${options.databaseId}${url}`;
