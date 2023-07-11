@@ -26,7 +26,7 @@ export function createD1Api(options: D1ApiConfig): D1Database {
     tinyassert(typeof url === "string");
     tinyassert(init);
 
-    // TODO: we might not need "/dump" and "/execute" ? (actually "/execute" is currently 4040 not found...)
+    // TODO: we might not need "/dump" and "/execute" ? (actually "/execute" is currently 404 Not Found...)
     if (url !== "/query") {
       throw new Error("D1API_ERROR", {
         cause: `unsupported endpoint '${url}'`,
