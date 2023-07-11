@@ -13,7 +13,7 @@
     "tsc": "tsc -b tsconfig.all.json",
     "dev:tsc": "pnpm tsc --watch --preserveWatchOutput",
     "test-e2e": "playwright test",
-    "repl": "tsx ./src/db/repl.ts",
+    "repl": "tsx -i -e 'import(`./src/db/repl.ts`)'",
     "migrate": "tsx ./src/db/migrator-cli.ts",
     "migrate-production": "D1_DATABASE_ID=e89e00e8-19f7-4ffc-9e1e-66fbc23cd9a6 tsx ./src/db/migrator-cli.ts",
     "lint": "pnpm run --seq /^lint:/",
