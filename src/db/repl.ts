@@ -1,5 +1,5 @@
-import { sql } from "../rpc/server";
 import { setWorkerEnvDev } from "../utils/worker-env-dev";
+import { sql } from "./sql";
 
 // usage:
 // pnpm repl
