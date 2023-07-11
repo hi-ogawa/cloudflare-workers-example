@@ -13,9 +13,9 @@
     "tsc": "tsc -b tsconfig.all.json",
     "dev:tsc": "pnpm tsc --watch --preserveWatchOutput",
     "test-e2e": "playwright test",
-    "repl": "tsx ./src/db/repl.ts",
-    "migrate": "tsx ./src/db/migrate-cli.ts",
-    "migrate-production": "D1_DATABASE_ID=b7ae526e-5a2b-4c16-8d7d-4a5983c4f1f1 tsx ./src/db/migrate-cli.ts",
+    "repl": "tsx -i -e 'import(`./src/db/repl.ts`)'",
+    "migrate": "tsx ./src/db/migrator-cli.ts",
+    "migrate-production": "D1_DATABASE_ID=e89e00e8-19f7-4ffc-9e1e-66fbc23cd9a6 tsx ./src/db/migrator-cli.ts",
     "lint": "pnpm run --seq /^lint:/",
     "lint-check": "pnpm run --seq /^lint-check:/",
     "lint:isort": "pnpm lint-check:isort --fix",
@@ -24,6 +24,7 @@
     "lint-check:prettier": "prettier -c --cache ."
   },
   "dependencies": {
+    "@hiogawa/tiny-sql": "^0.0.3",
     "kysely": "^0.26.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
