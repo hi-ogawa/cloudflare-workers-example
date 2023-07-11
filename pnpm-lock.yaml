@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@hiogawa/tiny-sql':
-    specifier: ^0.0.2
-    version: 0.0.2
+    specifier: ^0.0.3
+    version: 0.0.3
   kysely:
     specifier: ^0.26.0
     version: 0.26.0
@@ -1122,8 +1122,8 @@ packages:
       zod: 3.21.4
     dev: true
 
-  /@hiogawa/tiny-sql@0.0.2:
-    resolution: {integrity: sha512-tLEVnjCIEhVaZ97c6H00Uve0QyQMlKRWrz8gkGNSgTok54+ZEcUZokGP3dz1886yXzhSCrvO12FN7yzFxAhy1g==}
+  /@hiogawa/tiny-sql@0.0.3:
+    resolution: {integrity: sha512-rBSHyCskJ7XagVlmyt0Ru5OLlCANuyYSRTx3h8sFclha82ZfYa2dG1zdHChpMX45TZp4mA5+Qb9tEQUT8mIWcQ==}
     dev: false
 
   /@hiogawa/unocss-preset-antd@2.2.1-pre.3(@unocss/preset-uno@0.53.4)(unocss@0.53.4):
