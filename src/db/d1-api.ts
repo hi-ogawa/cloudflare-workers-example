@@ -28,7 +28,7 @@ export function createD1Api(options: D1ApiConfig): D1Database {
 
     // TODO: we might not need "/dump" and "/execute" ? (actually "/execute" is currently 404 Not Found...)
     if (url !== "/query") {
-      throw new Error("D1API_ERROR", {
+      throw new Error("UNOFFICIAL_D1_API_ERROR", {
         cause: `unsupported endpoint '${url}'`,
       });
     }
@@ -50,7 +50,7 @@ export function createD1Api(options: D1ApiConfig): D1Database {
     const resJson = await res.json();
     const parsed = Z_QUERY_RESPONSE.parse(resJson);
     if (!parsed.success) {
-      throw new Error("D1API_ERROR", { cause: resJson });
+      throw new Error("UNOFFICIAL_D1_API_ERROR", { cause: resJson });
     }
 
     const dummyRes = {

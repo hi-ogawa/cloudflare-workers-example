@@ -1,18 +1,14 @@
 import repl from "node:repl";
-import { sql } from "kysely";
-import { db, initializeDb } from ".";
+import { sql } from "../rpc/server";
 import { setWorkerEnvDev } from "../utils/worker-env-dev";
 
-// usage
 // pnpm repl
-// > await sql`SELECT 1 + 1`.execute(db)
-// > await sql`PRAGMA table_list`.execute(db)
-// > await db.selectFrom("counter").selectAll().execute()
+// > await sql`SELECT 1 + 1`.all()
+// > await sql`PRAGMA table_list`.all()
 
 async function main() {
   console.log("* initializing environemtnt...");
   await setWorkerEnvDev();
-  await initializeDb();
 
   console.log("* repl is ready");
   const replServer = repl.start();
@@ -23,7 +19,6 @@ async function main() {
   });
   Object.assign(replServer.context, {
     sql,
-    db,
   });
 }
 
