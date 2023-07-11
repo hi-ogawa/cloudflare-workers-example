@@ -1,10 +1,8 @@
 import type { RequestHandler } from "@hattip/compose";
 import { type TinyRpcRoutes, createTinyRpcHandler } from "@hiogawa/tiny-rpc";
 import { zodFn } from "@hiogawa/tiny-rpc/dist/zod";
-import { tinyassert } from "@hiogawa/utils";
-import { sql } from "kysely";
 import { z } from "zod";
-import { db } from "../db";
+import { sql } from "../db/sql";
 import { env } from "../utils/worker-env";
 
 export type RpcRoutes = typeof rpcRoutes;
@@ -48,57 +46,16 @@ const counterD1 = {
   id: 1,
 
   async get() {
-    // it's simple enough to get away with raw query
-    // but use kysely just for the sake of testing src/db/d1-api.ts
-
-    // d1 raw query
-    sqlD1<{ value: number }>`SELECT value from counter where id = ${this.id}`;
-
-    // kysely raw query
-    sql`SELECT value from counter where id = ${this.id}`;
-
-    // kysely query builder
-    const row = await db
-      .selectFrom("counter")
-      .select("value")
-      .where("id", "=", this.id)
-      .executeTakeFirstOrThrow();
+    const row = await sql<{
+      value: number;
+    }>`SELECT value from counter where id = ${this.id}`.firstOrThrow();
     return row.value;
   },
 
   async update(delta: number) {
-    // d1 raw query
-    sqlD1`UPDATE Counter SET value = value + ${delta} WHERE id = ${this.id} RETURNING value`;
-
-    // kysely raw query
-    sql`UPDATE Counter SET value = value + ${delta} WHERE id = ${this.id} RETURNING value`;
-
-    // kysely query builder
-    const row = await db
-      .updateTable("counter")
-      .set({ value: sql`value + ${delta}` })
-      .where("id", "=", this.id)
-      .returning("value")
-      .executeTakeFirstOrThrow();
+    const row = await sql<{
+      value: number;
+    }>`UPDATE counter SET value = value + ${delta} WHERE id = ${this.id} RETURNING value`.firstOrThrow();
     return row.value;
   },
 };
-
-//
-// simple raw query without kysely
-//
-
-type D1Primitive = number | string | null;
-
-function sqlD1<T = Record<string, D1Primitive>>(
-  strings: TemplateStringsArray,
-  ...values: D1Primitive[]
-): () => Promise<T[]> {
-  const query = strings.raw.join("?");
-  const stmt = env.db.prepare(query).bind(...values);
-  return async () => {
-    const result = await stmt.all();
-    tinyassert(result.success, result.error);
-    return (result.results ?? []) as T[];
-  };
-}
