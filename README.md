@@ -22,9 +22,8 @@ pnpm migrate-production status
 
 ## summary
 
-- [x] SSR server
-- [x] API server
-- [x] client assets on `bucket`
+- [x] SSR/API server
+- [x] client by `assets` config
 - [x] persistence on `KV` and `D1`
 - [x] migration cli for both local `sqlite` and remote `D1`
 - [x] HMR dev server with `vite`

@@ -1,14 +1,12 @@
 name = "cloudflare-workers-example"
 
 main = "./dist/cloudflare/index.js"
+assets = "./dist/cloudflare/bucket"
 workers_dev = true
 # some worker api requires extra module to be injected during bundle e.g. https://github.com/cloudflare/workers-sdk/blob/5a74cb559611b1035fe97ebbe870d7061f3b41d0/packages/wrangler/src/deployment-bundle/bundle.ts#L298
 no_bundle = false
 compatibility_date = "2023-04-20"
 compatibility_flags = [ "nodejs_compat" ]
-
-[site]
-bucket = "./dist/cloudflare/bucket"
 
 # npx wrangler kv:namespace create kv
 [[kv_namespaces]]
