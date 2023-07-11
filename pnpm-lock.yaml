@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@hiogawa/tiny-sql':
+    specifier: ^0.0.3
+    version: 0.0.3
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -1115,6 +1118,10 @@ packages:
     dependencies:
       zod: 3.21.4
     dev: true
+
+  /@hiogawa/tiny-sql@0.0.3:
+    resolution: {integrity: sha512-rBSHyCskJ7XagVlmyt0Ru5OLlCANuyYSRTx3h8sFclha82ZfYa2dG1zdHChpMX45TZp4mA5+Qb9tEQUT8mIWcQ==}
+    dev: false
 
   /@hiogawa/unocss-preset-antd@2.2.1-pre.3(@unocss/preset-uno@0.53.4)(unocss@0.53.4):
     resolution: {integrity: sha512-NjJ0uKIA6tqmDTXQkO52Hb83tBJjwjOCUx9cgodxiROjTCuEP+yfkmJyzMlDzfxRUl8DnHd8IijnZl2cAX7s9Q==}

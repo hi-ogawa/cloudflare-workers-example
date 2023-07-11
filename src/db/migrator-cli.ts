@@ -1,19 +1,17 @@
 import process from "node:process";
+import {
+  Migrator,
+  MigratorCli,
+  rawSqlMigrationDriver,
+  rawSqlMigrationProvider,
+} from "@hiogawa/tiny-sql";
 import { consola } from "consola";
 import { env } from "../utils/worker-env";
 import { setWorkerEnvDev } from "../utils/worker-env-dev";
-import {
-  Migrator,
-  rawSqlMigrationDriver,
-  rawSqlMigrationProvider,
-} from "./migrator";
 
-// knex/kysely like migration cli
+// migration cli based on "tiny-sql" https://github.com/hi-ogawa/js-utils/pull/61
 
 async function mainCli() {
-  const args = process.argv.slice(2);
-  let command = args[0] ?? "";
-
   const migrator = new Migrator({
     provider: rawSqlMigrationProvider({ directory: "src/db/migrations" }),
     driver: rawSqlMigrationDriver({
@@ -28,7 +26,7 @@ async function mainCli() {
         // https://developers.cloudflare.com/d1/platform/client-api/#await-dbexec
         // > The input can be one or multiple queries separated by \n.
 
-        // poor-man's sql statement split...
+        // poor-man's sql statement split works for now
         const queries = raw
           .trim()
           .split(/;\n/)
@@ -41,45 +39,8 @@ async function mainCli() {
     }),
   });
 
-  if (command === "init-latest") {
-    await migrator.init();
-    command = "latest";
-  }
-
-  switch (command) {
-    case "init": {
-      await migrator.init();
-      return;
-    }
-    case "status": {
-      const result = await migrator.status();
-      for (const [name, e] of result.map) {
-        console.log(name, ":", e.state?.executedAt ?? "(pending)");
-      }
-      return;
-    }
-    case "up":
-    case "down":
-    case "latest": {
-      const result = await migrator[command]();
-      console.log("* executed migrations");
-      for (const r of result.results) {
-        console.log(r.name, ":", r.status, "-", r.direction);
-      }
-      if (result.error) {
-        throw result.error;
-      }
-      return;
-    }
-    case "-h":
-    case "help": {
-      console.log(
-        "available commands: init, status, up, down, latest, init-latest",
-      );
-      return;
-    }
-  }
-  throw new Error(`unknown command '${command}'`);
+  const cli = new MigratorCli(migrator);
+  await cli.parseAndRun(process.argv.slice(2));
 }
 
 //
