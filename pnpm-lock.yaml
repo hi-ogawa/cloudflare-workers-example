@@ -38,8 +38,8 @@ devDependencies:
     specifier: 2.2.1-pre.3
     version: 2.2.1-pre.3(@unocss/preset-uno@0.53.4)(unocss@0.53.4)
   '@hiogawa/utils':
-    specifier: 1.4.2-pre.12
-    version: 1.4.2-pre.12
+    specifier: 1.4.2-pre.13
+    version: 1.4.2-pre.13
   '@hiogawa/utils-experimental':
     specifier: ^0.1.0
     version: 0.1.0
@@ -1130,8 +1130,8 @@ packages:
     resolution: {integrity: sha512-/iXmtdJlhBGfNK+bt4gNipdRPaHGkHeXbW+yY9RLB4dC2kOWoEpKY2aZjFugFRXEGtz3luEYVeLpV4VWEuq5kA==}
     dev: true
 
-  /@hiogawa/utils@1.4.2-pre.12:
-    resolution: {integrity: sha512-YkNSrK+h1/iFeshHC+9YAhux1kUO0JJ+hjZdlcT5gJR8hW9GJpOK8xwOpAE1fVjRE+QWupKwPx33tJUXCGPoPA==}
+  /@hiogawa/utils@1.4.2-pre.13:
+    resolution: {integrity: sha512-OZMNVIishuQzlCvhme3kqACxYXH8xxUVIx72u0tXZGZ+uUZjevHV6Ue8Fbps3NskKxt6aP32w/d4OtKuGyck5Q==}
     dev: true
 
   /@hiogawa/vite-import-index-html@0.2.0(vite@4.4.2):

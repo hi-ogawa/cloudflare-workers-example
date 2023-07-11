@@ -5,6 +5,7 @@ import {
   rawSqlMigrationDriver,
   rawSqlMigrationProvider,
 } from "@hiogawa/tiny-sql";
+import { flattenErrorCauses } from "@hiogawa/utils";
 import { consola } from "consola";
 import { env } from "../utils/worker-env";
 import { setWorkerEnvDev } from "../utils/worker-env-dev";
@@ -52,25 +53,11 @@ async function main() {
   try {
     await mainCli();
   } catch (e) {
-    for (const inner of traverseErrorCause(e)) {
+    for (const inner of flattenErrorCauses(e)) {
       consola.error(inner);
     }
     process.exitCode = 1;
   }
-}
-
-function traverseErrorCause(e: unknown): unknown[] {
-  let errors: unknown[] = [e];
-  for (let i = 0; ; i++) {
-    if (i > 100) throw new Error("bound loop just in case");
-    if (e instanceof Error && e.cause && !errors.includes(e.cause)) {
-      errors.push(e.cause);
-      e = e.cause;
-      continue;
-    }
-    break;
-  }
-  return errors;
 }
 
 main();
