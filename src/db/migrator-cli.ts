@@ -10,9 +10,12 @@ import { consola } from "consola";
 import { env } from "../utils/worker-env";
 import { setWorkerEnvDev } from "../utils/worker-env-dev";
 
-// migration cli based on "tiny-sql" https://github.com/hi-ogawa/js-utils/pull/61
+// raw sql migration cli based on "tiny-sql"
+// https://github.com/hi-ogawa/js-utils/blob/55847e429a106203ff6d6fd35ee9e3350faa31a4/packages/tiny-sql/README.md
 
 async function mainCli() {
+  await setWorkerEnvDev();
+
   const migrator = new Migrator({
     provider: rawSqlMigrationProvider({ directory: "src/db/migrations" }),
     driver: rawSqlMigrationDriver({
@@ -49,7 +52,6 @@ async function mainCli() {
 //
 
 async function main() {
-  await setWorkerEnvDev();
   try {
     await mainCli();
   } catch (e) {
