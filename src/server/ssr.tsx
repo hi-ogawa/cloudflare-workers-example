@@ -21,7 +21,7 @@ export async function runSSR() {
   // emulate "ssr prepass" by `Suspense` and `allReady`
   //
 
-  // workaround import error
+  // workaround typing for explicit "browser" module import
   const { renderToReadableStream }: typeof import("react-dom/server") =
     await import("react-dom/server.browser" as string);
 
