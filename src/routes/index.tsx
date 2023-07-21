@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { rpcClient } from "../rpc/client";
-import serverOnly from "../server-only";
+import { rpcRoutes } from "../rpc/server";
 
 export function Page() {
   return (
@@ -66,7 +66,7 @@ function useCounterKV() {
   const getCounterQuery = useQuery({
     queryKey,
     queryFn: import.meta.env.SSR
-      ? serverOnly.rpcRoutes.getCounterKV
+      ? rpcRoutes.getCounterKV
       : rpcClient.getCounterKV,
     suspense: import.meta.env.SSR,
   });
@@ -87,7 +87,7 @@ function useCounterD1() {
   const getCounterQuery = useQuery({
     queryKey,
     queryFn: import.meta.env.SSR
-      ? serverOnly.rpcRoutes.getCounterD1
+      ? rpcRoutes.getCounterD1
       : rpcClient.getCounterD1,
     suspense: import.meta.env.SSR,
   });

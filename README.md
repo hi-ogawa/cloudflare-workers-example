@@ -14,7 +14,7 @@ pnpm preview
 
 # release
 pnpm build
-pnpm release
+pnpm release-production
 
 # migration on D1
 pnpm migrate-production status
