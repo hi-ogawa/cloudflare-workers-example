@@ -39,6 +39,7 @@
     "@hiogawa/utils": "1.4.2-pre.13",
     "@hiogawa/utils-experimental": "^0.1.0",
     "@hiogawa/vite-import-index-html": "^0.2.0",
+    "@hiogawa/vite-null-export": "^0.0.0",
     "@iconify-json/ri": "^1.1.10",
     "@miniflare/d1": "^2.14.0",
     "@miniflare/kv": "^2.14.0",

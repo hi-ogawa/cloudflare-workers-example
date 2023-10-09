@@ -46,6 +46,9 @@ devDependencies:
   '@hiogawa/vite-import-index-html':
     specifier: ^0.2.0
     version: 0.2.0(vite@4.4.2)
+  '@hiogawa/vite-null-export':
+    specifier: ^0.0.0
+    version: 0.0.0(vite@4.4.2)
   '@iconify-json/ri':
     specifier: ^1.1.10
     version: 1.1.10
@@ -1145,6 +1148,15 @@ packages:
       vite: 4.4.2(@types/node@18.16.19)
     dev: true
 
+  /@hiogawa/vite-null-export@0.0.0(vite@4.4.2):
+    resolution: {integrity: sha512-VGEITf38JmnY0p7B+sgdteeJrHp9KHOjSLGGfx4dacu54Oq6VtAtVOM51/4M9/sPilPVFZunA13blxNi2jGvFg==}
+    peerDependencies:
+      vite: '*'
+    dependencies:
+      es-module-lexer: 1.3.1
+      vite: 4.4.2(@types/node@18.16.19)
+    dev: true
+
   /@iarna/toml@2.2.5:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
@@ -1909,6 +1921,10 @@ packages:
 
   /es-module-lexer@1.3.0:
     resolution: {integrity: sha512-vZK7T0N2CBmBOixhmjdqx2gWVbFZ4DXZ/NyRMZVlJXPa7CyFS+/a4QQsDGDQy9ZfEzxFuNEsMLeQJnKP2p5/JA==}
+    dev: true
+
+  /es-module-lexer@1.3.1:
+    resolution: {integrity: sha512-JUFAyicQV9mXc3YRxPnDlrfBKpqt6hUYzz9/boprUJHs4e4KVr3XwOF70doO6gwXUor6EWZJAyWAfKki84t20Q==}
     dev: true
 
   /esbuild@0.16.3:
